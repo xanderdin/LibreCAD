@@ -67,7 +67,7 @@ QMAKE_CXXFLAGS += -g
 QMAKE_CFLAGS_ISYSTEM = ""
 
 # svg support
-QT += svg
+#QT += svg
 
 greaterThan( QT_MAJOR_VERSION, 4) {
 	CONFIG += c++11

@@ -22,9 +22,7 @@
 **
 ******************************************************************************/
 
-#include <QtCore>
 #include <QCoreApplication>
-#include <QApplication>
 
 #include "rs_debug.h"
 #include "rs_fontlist.h"
@@ -47,7 +45,7 @@ int console_dxf2pdf(int argc, char* argv[])
 
     RS_DEBUG->setLevel(RS_Debug::D_NOTHING);
 
-    QApplication app(argc, argv);
+    QCoreApplication app(argc, argv);
     QCoreApplication::setOrganizationName("LibreCAD");
     QCoreApplication::setApplicationName("LibreCAD");
     QCoreApplication::setApplicationVersion(XSTR(LC_VERSION));

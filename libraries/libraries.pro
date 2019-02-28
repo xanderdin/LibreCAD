@@ -8,9 +8,7 @@ TEMPLATE = subdirs
 
 TARGET = libraries
 
-SUBDIRS     = \
-        libdxfrw \
-        jwwlib
+SUBDIRS = libdxfrw
 
 macx|win32|equals(build_muparser, "true")|!packagesExist(muparser){
         message("Using bundled muparser lib")
@@ -18,5 +16,3 @@ macx|win32|equals(build_muparser, "true")|!packagesExist(muparser){
 }else{
         message("Using external muparser lib")
 }
-
-

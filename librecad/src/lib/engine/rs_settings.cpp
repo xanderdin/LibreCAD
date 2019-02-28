@@ -94,10 +94,13 @@ bool RS_Settings::writeEntry(const QString& key, double value) {
 }
 
 bool RS_Settings::writeEntry(const QString& key, const QVariant& value) {
-	QSettings s(companyKey, appKey);
-    // RVT_PORT not supported anymore s.insertSearchPath(QSettings::Windows, companyKey);
 
-    s.setValue(QString("%1%2").arg(group).arg(key), value);
+    // xanderdin: dxf2pdf should not write any settings to permanent storage
+
+	// QSettings s(companyKey, appKey);
+    // // RVT_PORT not supported anymore s.insertSearchPath(QSettings::Windows, companyKey);
+
+    // s.setValue(QString("%1%2").arg(group).arg(key), value);
 	cache[key]=value;
 
     return true;

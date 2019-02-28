@@ -36,7 +36,7 @@
 #include "rs_ellipse.h"
 #include "rs_line.h"
 #include "rs_graphicview.h"
-#include "rs_dialogfactory.h"
+// #include "rs_dialogfactory.h"
 #include "rs_infoarea.h"
 
 #include "rs_information.h"
