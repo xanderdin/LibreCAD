@@ -59,6 +59,13 @@ find_package(Qt5PrintSupport CONFIG REQUIRED)
 # Define LibreCAD version for substitution in sources
 add_definitions(-DLC_VERSION=${LC_VERSION})
 
+# Define LibreCAD directory for substitution in sources
+if (APPLE OR WIN32)
+    add_definitions(-DQC_APPDIR=LibreCAD)
+else()
+    add_definitions(-DQC_APPDIR=librecad)
+endif()
+
 # Target executable
 add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SRCS})
 
