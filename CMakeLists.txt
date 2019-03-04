@@ -4,16 +4,13 @@ cmake_policy(SET CMP0048 NEW)
 # Version of LibreCAD from which sources were taken
 set(LC_VERSION "2.2.0-rc1-105-gc2635841")
 
-project(dxf2pdf VERSION 0.1.0)
+project(dxf2pdf VERSION 0.1.0 LANGUAGES CXX)
 
 # c++11 is obligatory for LibreCAD
 message("We will be using CPP11 features")
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOMOC ON)
+#set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Destination directory for executable and resources
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/OUT")
@@ -53,6 +50,8 @@ endif()
 find_package(Boost REQUIRED)
 
 # Qt5 library
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
 find_package(Qt5Core CONFIG REQUIRED)
 find_package(Qt5PrintSupport CONFIG REQUIRED)
 
