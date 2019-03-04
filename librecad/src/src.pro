@@ -52,10 +52,10 @@ unix {
         QMAKE_INFO_PLIST = Info.plist.app
         DEFINES += QC_APPDIR="\"LibreCAD\""
 #        ICON = ../res/main/librecad.icns
-#        contains(DISABLE_POSTSCRIPT, false) {
-#            QMAKE_POST_LINK = /bin/sh $$_PRO_FILE_PWD_/../../scripts/postprocess-osx.sh $$OUT_PWD/$${DESTDIR}/$${TARGET}.app/ $$[QT_INSTALL_BINS];
-#            QMAKE_POST_LINK += /usr/libexec/PlistBuddy -c \"Set :CFBundleGetInfoString string $${TARGET} $${LC_VERSION}\" $$OUT_PWD/$${DESTDIR}/$${TARGET}.app/Contents/Info.plist;
-#        }
+        contains(DISABLE_POSTSCRIPT, false) {
+            QMAKE_POST_LINK = /bin/sh $$_PRO_FILE_PWD_/../../scripts/postprocess-osx.sh $$OUT_PWD/$${DESTDIR}/$${TARGET}.app/ $$[QT_INSTALL_BINS];
+            QMAKE_POST_LINK += /usr/libexec/PlistBuddy -c \"Set :CFBundleGetInfoString string $${TARGET} $${LC_VERSION}\" $$OUT_PWD/$${DESTDIR}/$${TARGET}.app/Contents/Info.plist;
+        }
     }
     else {
 #        TARGET = librecad
@@ -78,9 +78,9 @@ win32 {
     }
 
 #    RC_FILE = ../res/main/librecad.rc
-#    contains(DISABLE_POSTSCRIPT, false) {
-#        QMAKE_POST_LINK = "$$_PRO_FILE_PWD_/../../scripts/postprocess-win.bat" $$LC_VERSION
-#    }
+    contains(DISABLE_POSTSCRIPT, false) {
+        QMAKE_POST_LINK = "$$_PRO_FILE_PWD_/../../scripts/postprocess-win.bat" $$LC_VERSION
+    }
 }
 
 DEFINES += LC_VERSION=\"$$LC_VERSION\"
