@@ -49,6 +49,7 @@
 #include "qg_scrollbar.h"
 #include "rs_modification.h"
 #include "rs_debug.h"
+#include "rs_graphic.h"
 
 #ifdef Q_OS_WIN32
 #define CURSOR_SIZE 16
@@ -504,8 +505,12 @@ void QG_GraphicView::wheelEvent(QWheelEvent *e) {
         {
             if (e->modifiers()==Qt::ControlModifier)
             {
+                RS_SETTINGS->beginGroup("/Defaults");
+                bool invZoom = (RS_SETTINGS->readNumEntry("/InvertZoomDirection", 0) == 1);
+                RS_SETTINGS->endGroup();
+
                 // Hold ctrl to zoom. 1 % per pixel
-                double v = -numPixels.y() / 100.;
+                double v = (invZoom) ? (numPixels.y() / 100.) : (-numPixels.y() / 100.);
                 RS2::ZoomDirection direction;
                 double factor;
 
@@ -520,15 +525,23 @@ void QG_GraphicView::wheelEvent(QWheelEvent *e) {
             }
             else
             {
+                RS_SETTINGS->beginGroup("/Defaults");
+                bool inv_h = (RS_SETTINGS->readNumEntry("/WheelScrollInvertH", 0) == 1);
+                bool inv_v = (RS_SETTINGS->readNumEntry("/WheelScrollInvertV", 0) == 1);
+                RS_SETTINGS->endGroup();
+
+                int hDelta = (inv_h) ? -numPixels.x() : numPixels.x();
+                int vDelta = (inv_v) ? -numPixels.y() : numPixels.y();
+
                 // scroll by scrollbars: issue #479 (it has its own issues)
                 if (scrollbars)
                 {
-                    hScrollBar->setValue(hScrollBar->value() - numPixels.x());
-                    vScrollBar->setValue(vScrollBar->value() - numPixels.y());
+                    hScrollBar->setValue(hScrollBar->value() - hDelta);
+                    vScrollBar->setValue(vScrollBar->value() - vDelta);
                 }
                 else
                 {
-                    setCurrentAction(new RS_ActionZoomScroll(numPixels.x(), numPixels.y(),
+                    setCurrentAction(new RS_ActionZoomScroll(hDelta, vDelta,
                                                              *container, *this));
                 }
             }
@@ -617,7 +630,11 @@ void QG_GraphicView::wheelEvent(QWheelEvent *e) {
 
 		RS_Vector mainViewCenter = toGraph(getWidth()/2, getHeight()/2);
 
-		if (e->delta()>0) {
+		RS_SETTINGS->beginGroup("/Defaults");
+		bool invZoom = (RS_SETTINGS->readNumEntry("/InvertZoomDirection", 0) == 1);
+		RS_SETTINGS->endGroup();
+
+		if ((e->delta()>0 && !invZoom) || (e->delta()<0 && invZoom)) {
 			const double zoomInOvershoot=1.20;
 
 			RS_Vector effect{mouse};
@@ -881,18 +898,45 @@ void QG_GraphicView::layerActivated(RS_Layer *layer) {
 
 	if(!toActivated) return;
     RS_EntityContainer *container = this->getContainer();
+    RS_Graphic* graphic = this->getGraphic();
+    QList<RS_Entity*> clones;
 
-	//allow undo cycle for layer change of selected
-	RS_AttributesData data;
-	data.pen = RS_Pen();
-	data.layer = layer->getName();
-	data.changeColor = false;
-	data.changeLineType = false;
-	data.changeWidth = false;
-	data.changeLayer = true;
-	RS_Modification m(*container, this);
-	m.changeAttributes(data);
+    if (graphic) {
+        graphic->startUndoCycle();
+    }
 
+    for (auto en: *container) {
+        if (!en) continue;
+        if (!en->isSelected()) continue;
+
+        RS_Entity* cl = en->clone();
+        cl->setLayer(layer);
+        this->deleteEntity(en);
+        en->setSelected(false);
+        cl->setSelected(false);
+        clones << cl;
+
+        if (!graphic) continue;
+
+        en->setUndoState(true);
+        graphic->addUndoable(en);
+    }
+
+    for (auto cl: clones) {
+        container->addEntity(cl);
+        this->drawEntity(cl);
+
+        if (!graphic) continue;
+
+        graphic->addUndoable(cl);
+    }
+
+    if (graphic) {
+        graphic->endUndoCycle();
+        graphic->updateInserts();
+    }
+
+    container->calculateBorders();
     container->setSelected(false);
     redraw(RS2::RedrawDrawing);
 }
