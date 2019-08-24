@@ -15,7 +15,8 @@ matrix:
   - compiler: gcc
     env: BUILD_TYPE="release"
     after_success:
-      - ./CI/uploadtool/upload.sh unix/librecad
+      - ./scripts/build-appimage.sh
+      - ./CI/uploadtool/upload.sh ./AppImage/LibreCAD*.AppImage
   allow_failures:
   - env: BUILD_TYPE="debug" ANALYZE="scan-build-3.7 -o out " GH_REF=github.com/LibreCAD/static-analyzer-reports.git
 install:
