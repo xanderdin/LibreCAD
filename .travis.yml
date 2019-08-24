@@ -2,8 +2,6 @@ language: cpp
 sudo: required
 dist: trusty
 compiler: gcc
-git:
-  depth: false
 branches:
   only:
 #    - master
@@ -32,6 +30,8 @@ install:
     sudo apt-get update;
     sudo apt-get -qq install clang-3.7;
   fi;
+before_script:
+- git fetch --unshallow
 script:
 - ${ANALYZE}qmake -r librecad.pro CONFIG+=debug_and_release
 - ${ANALYZE}make ${BUILD_TYPE} -j$(nproc)
