@@ -21,7 +21,7 @@ matrix:
   - env: BUILD_TYPE="debug" ANALYZE="scan-build-3.7 -o out " GH_REF=github.com/LibreCAD/static-analyzer-reports.git
 install:
 - sudo apt-get -qq install qt5-default qtbase5-dev  libqt5svg5-dev qttools5-dev qttools5-dev-tools
-  libmuparser-dev libboost-dev libfreetype6-dev libicu-dev pkg-config
+  libmuparser-dev libboost-dev libfreetype6-dev libicu-dev pkg-config realpath
 - |
   if [ "${ANALYZE}" ]; then
     wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key|sudo apt-key add -;
