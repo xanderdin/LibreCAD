@@ -15,7 +15,6 @@ matrix:
   - compiler: gcc
     env: BUILD_TYPE="debug" ANALYZE="scan-build-3.7 -o out " GH_REF=github.com/LibreCAD/static-analyzer-reports.git
   - compiler: gcc
-    if: env(TRAVIS_PULL_REQUEST) = "false"
     env: BUILD_TYPE="release"
     after_success:
       - ./scripts/build-appimage.sh
