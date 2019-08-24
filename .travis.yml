@@ -2,6 +2,8 @@ language: cpp
 sudo: required
 dist: trusty
 compiler: gcc
+git:
+  depth: false
 branches:
   only:
 #    - master
@@ -13,12 +15,14 @@ matrix:
   - compiler: gcc
     env: BUILD_TYPE="debug" ANALYZE="scan-build-3.7 -o out " GH_REF=github.com/LibreCAD/static-analyzer-reports.git
   - compiler: gcc
+    if: env(TRAVIS_PULL_REQUEST) = false
     env: BUILD_TYPE="release"
     after_success:
       - ./scripts/build-appimage.sh
       - ./CI/uploadtool/upload.sh ./AppImage/LibreCAD*.AppImage
   allow_failures:
   - env: BUILD_TYPE="debug" ANALYZE="scan-build-3.7 -o out " GH_REF=github.com/LibreCAD/static-analyzer-reports.git
+  - env: BUILD_TYPE="release"
 install:
 - sudo apt-get -qq install qt5-default qtbase5-dev  libqt5svg5-dev qttools5-dev qttools5-dev-tools
   libmuparser-dev libboost-dev libfreetype6-dev libicu-dev pkg-config realpath
