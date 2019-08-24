@@ -7,6 +7,9 @@ branches:
 #    - master
 #    - "2.0"
     - play_with_travis
+  except:
+    - # Do not build tags that we create when we upload to GitHub Releases
+    - /^(?i:continuous.*)$/
 matrix:
   fast_finish: true
   include:
@@ -30,8 +33,6 @@ install:
     sudo apt-get update;
     sudo apt-get -qq install clang-3.7;
   fi;
-before_script:
-- git fetch --unshallow
 script:
 - ${ANALYZE}qmake -r librecad.pro CONFIG+=debug_and_release
 - ${ANALYZE}make ${BUILD_TYPE} -j$(nproc)
