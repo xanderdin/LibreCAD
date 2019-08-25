@@ -104,12 +104,12 @@ stages:
         sudo installer -pkg ./MacPorts-2.5.4-10.13-HighSierra.pkg -target /
         export PATH=/opt/local/bin:/opt/local/sbin:$PATH
         sudo port install \
-            gcc49 \
+            gcc8 \
             qt5-creator-mac \
             qt5-mac \
             boost \
             freetype
-        sudo port select --set gcc mp-gcc49
+        sudo port select --set gcc mp-gcc8
       displayName: 'Install dependencies'
 
     - bash: |
