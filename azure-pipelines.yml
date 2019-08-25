@@ -23,17 +23,30 @@ steps:
         libfreetype6-dev \
         libicu-dev \
         pkg-config
-  displayName: 'Install build dependencies'
+  displayName: 'Install dependencies'
 
 - bash: |
     qmake -r librecad.pro CONFIG+=debug_and_release
     make release -j$(nproc)
-  displayName: 'Build from source code'
+  displayName: 'Build from source'
 
 - bash: |
     ./scripts/build-appimage.sh
   displayName: 'Build AppImage'
 
-- publish: $(Build.SourcesDirectory)/AppImage/LibreCAD*.AppImage
-  artifact: AppImage
+#- publish: ./AppImage/LibreCAD*.AppImage
+#  artifact: AppImage
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: AppImage
+
+- task: GitHubRelease@0
+  inputs:
+    gitHubConnection: xanderdin
+    isPreRelease: true
+    addChangeLog: false
+    assets: |
+        $(Build.ArtifactStagingDirectory)/LibreCAD*.AppImage
 
