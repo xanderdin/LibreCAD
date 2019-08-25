@@ -1,0 +1,14 @@
+trigger:
+- play_with_azure
+
+
+pool:
+  vmImage: 'ubuntu-16.04'
+
+
+steps:
+- script: |
+    qmake -r librecad.pro CONFIG+=debug_and_release
+    make release -j$(nproc)
+  displayName: 'make'
+
