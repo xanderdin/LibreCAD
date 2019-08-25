@@ -32,12 +32,12 @@ steps:
 
 - bash: |
     ./scripts/build-appimage.sh
+    ls -lh ./AppImage/
   displayName: 'Build AppImage'
 
 - task: CopyFiles@2
   inputs:
-    contents: |
-      ./AppImage/LibreCAD*.AppImage
+    contents: 'AppImage/*.AppImage'
     targetFolder: $(Build.ArtifactStagingDirectory)
 
 - task: PublishBuildArtifacts@1
