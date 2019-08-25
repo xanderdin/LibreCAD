@@ -34,7 +34,7 @@ steps:
     ./scripts/build-appimage.sh
   displayName: 'Build AppImage'
 
-- publish: ./AppImage/LibreCAD*.AppImage
+- publish: $(System.DefaultWorkingDirectory)/AppImage/LibreCAD*.AppImage
   artifact: AppImage
 
 #- task: PublishBuildArtifacts@1
