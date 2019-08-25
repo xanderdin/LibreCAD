@@ -7,6 +7,11 @@ pool:
 
 
 steps:
+
+- bash: |
+    sudo apt-get -qq install qt5-default qtbase5-dev  libqt5svg5-dev qttools5-dev qttools5-dev-tools libmuparser-dev libboost-dev libfreetype6-dev libicu-dev pkg-config
+  displayName: 'apt-get'
+
 - script: |
     qmake -r librecad.pro CONFIG+=debug_and_release
     make release -j$(nproc)
