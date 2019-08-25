@@ -105,8 +105,7 @@ stages:
         export PATH=/opt/local/bin:/opt/local/sbin:$PATH
         sudo port install \
             gcc8 \
-            qt5-creator-mac \
-            qt5-mac \
+            qt5-qtcreator \
             boost \
             freetype
         sudo port select --set gcc mp-gcc8
