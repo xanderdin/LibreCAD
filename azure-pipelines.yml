@@ -102,6 +102,7 @@ stages:
     - bash: |
         wget https://github.com/macports/macports-base/releases/download/v2.5.4/MacPorts-2.5.4-10.13-HighSierra.pkg
         sudo installer -pkg ./MacPorts-2.5.4-10.13-HighSierra.pkg -target /
+        export PATH=/opt/local/bin:/opt/local/sbin:$PATH
         sudo port install \
             gcc49 \
             qt5-creator-mac \
