@@ -1,47 +1,146 @@
+#
+# Azure Pipelines for LibreCAD builds
+#
+
+
+# Branches to monitor
 trigger:
+- master
 - play_with_azure
 
 
+# Don't run on pull requests
 pr: none
 
 
-pool:
-  vmImage: 'ubuntu-16.04'
+stages:
+
+- stage: Build
+  displayName: 'Build for all architectures'
 
 
-steps:
+  jobs:
 
-- bash: |
-    sudo apt-get -qq install \
-        qt5-default \
-        qtbase5-dev  \
-        libqt5svg5-dev \
-        qttools5-dev \
-        qttools5-dev-tools \
-        libmuparser-dev \
-        libboost-dev \
-        libfreetype6-dev \
-        libicu-dev \
-        pkg-config
-  displayName: 'Install dependencies'
+  - job: LinuxBuild
+    displayName: 'Linux Build'
 
-- bash: |
-    qmake -r librecad.pro CONFIG+=debug_and_release
-    make release -j$(nproc)
-  displayName: 'Build from source'
+    pool:
+      vmImage: 'ubuntu-16.04'
 
-- bash: |
-    ./scripts/build-appimage.sh
-    ls -lh ./AppImage/
-  displayName: 'Build AppImage'
+    steps:
 
-- task: CopyFiles@2
-  inputs:
-    contents: 'AppImage/*.AppImage'
-    targetFolder: $(Build.ArtifactStagingDirectory)
+    - bash: |
+        sudo apt-get -qq install \
+            qt5-default \
+            qtbase5-dev  \
+            libqt5svg5-dev \
+            qttools5-dev \
+            qttools5-dev-tools \
+            libmuparser-dev \
+            libboost-dev \
+            libfreetype6-dev \
+            libicu-dev \
+            pkg-config
+      displayName: 'Install dependencies'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: $(Build.ArtifactStagingDirectory)
-    artifactName: AppImage
+    - bash: |
+        qmake -r librecad.pro CONFIG+=debug_and_release
+        make release -j$(nproc)
+      displayName: 'Build from source'
+
+    - bash: |
+        ./scripts/build-appimage.sh
+        ls -lh ./AppImage/
+      displayName: 'Build AppImage'
+
+    - task: CopyFiles@2
+      inputs:
+        contents: 'AppImage/*.AppImage'
+        targetFolder: $(Build.ArtifactStagingDirectory)
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: $(Build.ArtifactStagingDirectory)
+        artifactName: AppImage
+
+
+  - job: WindowsBuild
+    displayName: 'Windows Build'
+
+    pool:
+      vmImage: 'vs2017-win2016'
+
+    steps:
+
+    - bash: |
+        echo 'Dependencies: TODO'
+      displayName: 'Install dependencies'
+
+    - bash: |
+        echo 'Build: TODO'
+      displayName: 'Build from source'
+
+    - task: CopyFiles@2
+      inputs:
+        contents: '*.exe'
+        targetFolder: $(Build.ArtifactStagingDirectory)
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: $(Build.ArtifactStagingDirectory)
+        artifactName: WindowsInstaller
+
+
+  - job: MacBuild
+    displayName: 'MacOS Build'
+
+    pool:
+      vmImage: 'macos-10.13'
+
+    steps:
+
+    - bash: |
+        sudo port install \
+            gcc49 \
+            qt5-creator-mac \
+            qt5-mac \
+            boost \
+            freetype
+        sudo port select --set gcc mp-gcc49
+      displayName: 'Install dependencies'
+
+    - bash: |
+        echo "QT_CONFIG -= no-pkg-config" >> custom.pro
+        qmake librecad.pro -r -spec macx-g++
+        make -j$(sysctl -n hw.ncpu)
+        ls -l
+      displayName: 'Build from source'
+
+    - task: CopyFiles@2
+      inputs:
+        contents: '*.dmg'
+        targetFolder: $(Build.ArtifactStagingDirectory)
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: $(Build.ArtifactStagingDirectory)
+        artifactName: MacOSPackage
+
+
+- stage: Upload
+  displayName: 'Upload built files'
+
+  jobs:
+
+  - job: UploadFiles
+    displayName: 'Upload built files'
+
+    pool:
+        vmImage: 'ubuntu-16.04'
+
+    steps:
+
+    - bash: |
+        echo 'TODO'
+      displayName: 'Upload TODO'
 
