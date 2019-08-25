@@ -2,6 +2,9 @@ trigger:
 - play_with_azure
 
 
+pr: none
+
+
 pool:
   vmImage: 'ubuntu-16.04'
 
@@ -9,11 +12,28 @@ pool:
 steps:
 
 - bash: |
-    sudo apt-get -qq install qt5-default qtbase5-dev  libqt5svg5-dev qttools5-dev qttools5-dev-tools libmuparser-dev libboost-dev libfreetype6-dev libicu-dev pkg-config
-  displayName: 'apt-get'
+    sudo apt-get -qq install \
+        qt5-default \
+        qtbase5-dev  \
+        libqt5svg5-dev \
+        qttools5-dev \
+        qttools5-dev-tools \
+        libmuparser-dev \
+        libboost-dev \
+        libfreetype6-dev \
+        libicu-dev \
+        pkg-config
+  displayName: 'Install build dependencies'
 
-- script: |
+- bash: |
     qmake -r librecad.pro CONFIG+=debug_and_release
     make release -j$(nproc)
-  displayName: 'make'
+  displayName: 'Build from source code'
+
+- bash: |
+    ./scripts/build-appimage.sh
+  displayName: 'Build AppImage'
+
+- publish: $(Build.SourcesDirectory)/AppImage/LibreCAD*.AppImage
+  artifact: AppImage
 
