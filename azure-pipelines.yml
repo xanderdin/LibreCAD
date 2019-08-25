@@ -34,19 +34,14 @@ steps:
     ./scripts/build-appimage.sh
   displayName: 'Build AppImage'
 
-- publish: $(System.DefaultWorkingDirectory)/AppImage/LibreCAD*.AppImage
-  artifact: AppImage
+- task: CopyFiles@2
+  inputs:
+    contents: |
+      ./AppImage/LibreCAD*.AppImage
+    targetFolder: $(Build.ArtifactStagingDirectory)
 
-#- task: PublishBuildArtifacts@1
-#  inputs:
-#    pathToPublish: '$(Build.ArtifactStagingDirectory)'
-#    artifactName: AppImage
-
-#- task: GitHubRelease@0
-#  inputs:
-#    gitHubConnection: LibreCAD_Releases
-#    isPreRelease: true
-#    addChangeLog: false
-#    assets: |
-#        $(Build.ArtifactStagingDirectory)/LibreCAD*.AppImage
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: AppImage
 
