@@ -112,13 +112,12 @@ stages:
         #    freetype
         #sudo port select --set gcc mp-gcc8
         gcc --version
-        ls -l /usr/bin/gcc
         brew install qt5
         brew link qt5 --force
         brew install boost
         brew install freetype
         brew install gcc@9
-        ls -l /usr/bin/gcc
+        brew install pkg-config
       displayName: 'Install dependencies'
 
     - bash: |
@@ -134,7 +133,7 @@ stages:
         echo '===='
         printenv
         gcc --version
-        echo "QT_CONFIG -= no-pkg-config" >> custom.pro
+        #echo "QT_CONFIG -= no-pkg-config" >> custom.pro
         #qmake librecad.pro -r -spec macx-g++ CONFIG+=debug_and_release
         qmake librecad.pro -r -spec macx-clang CONFIG+=debug_and_release
         make release -j$(sysctl -n hw.ncpu)
