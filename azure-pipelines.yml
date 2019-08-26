@@ -23,6 +23,7 @@ stages:
 
   - job: LinuxBuild
     displayName: 'Linux Build'
+    condition: False  # disable this job for now
 
     pool:
       vmImage: 'ubuntu-16.04'
@@ -66,6 +67,7 @@ stages:
 
   - job: WindowsBuild
     displayName: 'Windows Build'
+    condition: False  # disable this job for now
 
     pool:
       vmImage: 'vs2017-win2016'
@@ -95,20 +97,24 @@ stages:
     displayName: 'MacOS Build'
 
     pool:
-      vmImage: 'macos-10.13'
+      vmImage: 'macos-10.14'
 
     steps:
 
     - bash: |
-        wget https://github.com/macports/macports-base/releases/download/v2.5.4/MacPorts-2.5.4-10.13-HighSierra.pkg
-        sudo installer -pkg ./MacPorts-2.5.4-10.13-HighSierra.pkg -target /
-        export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-        sudo port install \
-            gcc8 \
-            qt5-qtcreator \
-            boost \
-            freetype
-        sudo port select --set gcc mp-gcc8
+        #wget https://github.com/macports/macports-base/releases/download/v2.5.4/MacPorts-2.5.4-10.13-HighSierra.pkg
+        #sudo installer -pkg ./MacPorts-2.5.4-10.13-HighSierra.pkg -target /
+        #export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+        #sudo port install \
+        #    gcc8 \
+        #    qt5-qtcreator \
+        #    boost \
+        #    freetype
+        #sudo port select --set gcc mp-gcc8
+        brew install qt5
+        brew link qt5 --force
+        brew install boost
+        brew install freetype
       displayName: 'Install dependencies'
 
     - bash: |
@@ -136,6 +142,7 @@ stages:
 
   - job: UploadFiles
     displayName: 'Upload built files'
+    condition: False  # disable this job for now
 
     pool:
         vmImage: 'ubuntu-16.04'
