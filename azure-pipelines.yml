@@ -117,6 +117,8 @@ stages:
         brew install boost
         brew install freetype
         brew install gcc@9
+        brew link gcc@9 --force
+        brew doctor
       displayName: 'Install dependencies'
 
     - bash: |
