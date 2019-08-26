@@ -44,7 +44,7 @@ stages:
       displayName: 'Install dependencies'
 
     - bash: |
-        qmake -r librecad.pro CONFIG+=release \
+        qmake -r librecad.pro CONFIG+=debug_and_release \
         && make release -j$(nproc)
       displayName: 'Build from source'
 
@@ -73,11 +73,11 @@ stages:
     steps:
 
     - bash: |
-        echo 'Dependencies: TODO'
+        echo 'TODO: install dependencies on Windows'
       displayName: 'Install dependencies'
 
     - bash: |
-        echo 'Build: TODO'
+        echo 'TODO: build on Windows'
       displayName: 'Build from source'
 
     - task: CopyFiles@2
