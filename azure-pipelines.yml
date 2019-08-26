@@ -115,8 +115,13 @@ stages:
         brew link qt5 --force
         brew install boost
         brew install freetype
-        brew install gcc@9
         brew install pkg-config
+        brew install gcc@9
+        sudo ln -s /usr/local/bin/gcc-9 cc
+        sudo ln -s /usr/local/bin/gcc-9 gcc
+        sudo ln -s /usr/local/bin/g++-9 g++
+        sudo ln -s /usr/local/bin/c++-9 c++
+        sudo ln -s /usr/local/bin/cpp-9 cpp
         ls -lah /usr/local/bin/{c,g}*
       displayName: 'Install dependencies'
 
