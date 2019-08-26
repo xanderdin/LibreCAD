@@ -135,6 +135,11 @@ stages:
         export PATH="/usr/local/opt/icu4c/sbin:$PATH"
         export LDFLAGS="-L/usr/local/opt/icu4c/lib $LDFLAGS"
         export CPPFLAGS="-I/usr/local/opt/icu4c/include $CPPFLAGS"
+        echo $LD_PATH
+        echo $LD_LIBRARY_PATH
+        echo $LDPATH
+        echo $LDLIBRARYPATH
+        export LD_PATH=''
         echo '===='
         printenv
         gcc --version
