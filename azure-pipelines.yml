@@ -1,5 +1,5 @@
 #
-# Azure Pipelines for LibreCAD builds
+# Azure Pipelines for LibreCAD
 #
 
 
@@ -15,15 +15,14 @@ pr: none
 
 stages:
 
-- stage: Build
-  displayName: 'Build for all architectures'
+- stage: BuildStage
+  displayName: 'Build stage'
 
 
   jobs:
 
   - job: LinuxBuild
-    displayName: 'Linux Build'
-    condition: False  # disable this job for now
+    displayName: 'Linux build'
 
     pool:
       vmImage: 'ubuntu-16.04'
@@ -33,7 +32,7 @@ stages:
     - bash: |
         sudo apt-get -qq install \
             qt5-default \
-            qtbase5-dev  \
+            qtbase5-dev \
             libqt5svg5-dev \
             qttools5-dev \
             qttools5-dev-tools \
@@ -45,13 +44,12 @@ stages:
       displayName: 'Install dependencies'
 
     - bash: |
-        qmake -r librecad.pro CONFIG+=debug_and_release
-        make release -j$(nproc)
+        qmake -r librecad.pro CONFIG+=release \
+        && make release -j$(nproc)
       displayName: 'Build from source'
 
     - bash: |
         ./scripts/build-appimage.sh
-        ls -lh ./AppImage/
       displayName: 'Build AppImage'
 
     - task: CopyFiles@2
@@ -66,7 +64,7 @@ stages:
 
 
   - job: WindowsBuild
-    displayName: 'Windows Build'
+    displayName: 'Windows build'
     condition: False  # disable this job for now
 
     pool:
@@ -94,7 +92,8 @@ stages:
 
 
   - job: MacOSBuild
-    displayName: 'MacOS Build'
+    displayName: 'MacOS build'
+    condition: False  # disable this job for now
 
     pool:
       vmImage: 'macos-10.14'
@@ -104,28 +103,17 @@ stages:
     - bash: |
         brew install \
             boost \
-            gcc@9 \
             qt5
         brew link qt5 --force
-        mkdir -p ~/bin
-        ln -s /usr/local/bin/gcc-9 ~/bin/gcc
-        ln -s /usr/local/bin/g++-9 ~/bin/g++
-        ln -s /usr/local/bin/gcc-ar-9 ~/bin/gcc-ar
-        ln -s /usr/local/bin/gcc-nm-9 ~/bin/gcc-nm
-        ln -s /usr/local/bin/gcc-ranlib-9 ~/bin/gcc-ranlib
-        brew versions qt
-        brew versions qt5
       displayName: 'Install dependencies'
 
     - bash: |
-        source ~/.bashrc
-        gcc --version
         #echo "QT_CONFIG -= no-pkg-config" >> custom.pro
-        qmake librecad.pro -r -spec macx-g++ CONFIG+=debug_and_release
+        #qmake librecad.pro -r -spec macx-g++ CONFIG+=debug_and_release
         #qmake librecad.pro -r -spec macx-clang CONFIG+=debug_and_release
-        make release -j$(sysctl -n hw.ncpu)
-        #./scripts/build-osx.sh
-        ls -lahR LibreCAD*
+        #make release -j$(sysctl -n hw.ncpu)
+        ./scripts/build-osx.sh
+        #ls -lahR LibreCAD*
       displayName: 'Build from source'
 
     - task: CopyFiles@2
@@ -139,21 +127,39 @@ stages:
         artifactName: MacOSPackage
 
 
-- stage: Upload
-  displayName: 'Upload built files'
+- stage: UploadStage
+  displayName: 'Upload stage'
 
   jobs:
 
-  - job: UploadFiles
-    displayName: 'Upload built files'
+  - deployment: UploadFiles
+    displayName: 'Upload built packages'
     condition: False  # disable this job for now
 
     pool:
-        vmImage: 'ubuntu-16.04'
+      vmImage: 'ubuntu-16.04'
 
-    steps:
+    environment: 'librecad-dev'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
 
-    - bash: |
-        echo 'TODO'
-      displayName: 'Upload TODO'
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: 'current'
+              downloadPath: '$(System.ArtifactsDirectory)'
+
+          # See: https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/curl-upload-files?view=azure-devops
+          - task: cURLUploader@2
+            inputs:
+              files: '$(System.ArtifactsDirectory)/*'
+              #authType: 'ServiceEndpoint' # Optional. Options: serviceEndpoint, userAndPass
+              #serviceEndpoint: # Required when authType == ServiceEndpoint
+              #username: # Optional
+              #password: # Optional
+              #url: # Required when authType == UserAndPass
+              #remotePath: 'upload/$(Build.BuildId)/' # Optional
+              #options: # Optional
+              #redirectStderr: true # Optional
 
