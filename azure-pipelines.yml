@@ -107,14 +107,23 @@ stages:
             gcc@4.9 \
             qt5
         brew link qt5 --force
+        mkdir -p ~/bin
+        ln -s /usr/local/bin/gcc-4.9 ~/bin/gcc
+        ln -s /usr/local/bin/g++-4.9 ~/bin/g++
+        ln -s /usr/local/bin/gcc-ar-4.9 ~/bin/gcc-ar
+        ln -s /usr/local/bin/gcc-nm-4.9 ~/bin/gcc-nm
+        ln -s /usr/local/bin/gcc-ranlib-4.9 ~/bin/gcc-ranlib
       displayName: 'Install dependencies'
 
     - bash: |
         #echo "QT_CONFIG -= no-pkg-config" >> custom.pro
         #qmake librecad.pro -r -spec macx-g++ CONFIG+=debug_and_release
-        qmake librecad.pro -r -spec macx-clang CONFIG+=debug_and_release
-        make release -j$(sysctl -n hw.ncpu)
-        #./scripts/build-osx.sh
+        #qmake librecad.pro -r -spec macx-clang CONFIG+=debug_and_release
+        #make release -j$(sysctl -n hw.ncpu)
+        source ~/.bashrc
+        gcc --version
+        ./scripts/build-osx.sh
+        ls -lahR LibreCAD*
       displayName: 'Build from source'
 
     - task: CopyFiles@2
