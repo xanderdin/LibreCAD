@@ -104,15 +104,17 @@ stages:
     - bash: |
         brew install \
             boost \
-            gcc@4.9 \
+            gcc@9 \
             qt5
         brew link qt5 --force
         mkdir -p ~/bin
-        ln -s /usr/local/bin/gcc-4.9 ~/bin/gcc
-        ln -s /usr/local/bin/g++-4.9 ~/bin/g++
-        ln -s /usr/local/bin/gcc-ar-4.9 ~/bin/gcc-ar
-        ln -s /usr/local/bin/gcc-nm-4.9 ~/bin/gcc-nm
-        ln -s /usr/local/bin/gcc-ranlib-4.9 ~/bin/gcc-ranlib
+        ln -s /usr/local/bin/gcc-9 ~/bin/gcc
+        ln -s /usr/local/bin/g++-9 ~/bin/g++
+        ln -s /usr/local/bin/gcc-ar-9 ~/bin/gcc-ar
+        ln -s /usr/local/bin/gcc-nm-9 ~/bin/gcc-nm
+        ln -s /usr/local/bin/gcc-ranlib-9 ~/bin/gcc-ranlib
+        brew versions qt
+        brew versions qt5
       displayName: 'Install dependencies'
 
     - bash: |
