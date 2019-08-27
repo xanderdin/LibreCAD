@@ -83,9 +83,10 @@ stages:
     - script: |
         pip install aqtinstall
         echo 'mkdir in C:\'
-        cd C:\
+        C:
         mkdir Qt
         dir C:\
+        dir C:\Qt
         echo 'aqt run'
         python -m aqt install -O C:\Qt 5.11.3 windows desktop win64_mingw73
       displayName: 'Install dependencies'
