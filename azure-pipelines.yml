@@ -89,8 +89,6 @@ stages:
       #python -m aqt install -O c:\Qt 5.11.3 windows desktop win32_mingw53
       #displayName: 'Install Qt'
 
-    - checkout: none
-
     - bash: |
         set -e
 
