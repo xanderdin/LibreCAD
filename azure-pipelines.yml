@@ -100,6 +100,7 @@ stages:
       inputs:
         archiveFilePatterns: 'C:\boost\*.7z'
         destinationFolder: 'C:\boost'
+        cleanDestinationFolder: false
 
     - script: 'dir C:\boost'
       displayName: 'Boost files'
