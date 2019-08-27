@@ -91,8 +91,9 @@ stages:
         echo 'set Qt_DIR=C:\Qt\Qt5.11.3\5.11.3' > ./scripts/custom-windows.bat
         echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS' >> ./scripts/custom-windows.bat
         echo 'set MINGW_VER=mingw53_32' >> ./scripts/custom-windows.bat
-        ls -lah ./scripts/*
-        cat ./scripts/custom-windows.bat
+        echo "BOOST_DIR = $BOOST_ROOT" >> ./librecad/src/custom.pro
+        echo "BOOST_LIBDIR = $BOOST_ROOT" >> ./librecad/src/custom.pro
+        cat ./librecad/src/custom.pro
       displayName: 'Prebuild'
 
     - script: |
