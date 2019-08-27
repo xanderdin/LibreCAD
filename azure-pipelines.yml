@@ -102,7 +102,7 @@ stages:
         #echo 'set Qt_DIR=C:\Qt\Qt5.11.3\5.11.3' > ./scripts/custom-windows.bat
         #echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS' >> ./scripts/custom-windows.bat
         #echo 'set MINGW_VER=mingw53_32' >> ./scripts/custom-windows.bat
-        echo 'set Qt_DIR=C:\Qt\Qt5.7.0\5.7' > ./scripts/custom-windows.bat
+        echo 'set Qt_DIR=C:\Qt\Qt5.7\5.7' > ./scripts/custom-windows.bat
         echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS' >> ./scripts/custom-windows.bat
         echo 'set MINGW_VER=mingw53_32' >> ./scripts/custom-windows.bat
         #echo 'set Qt_DIR=C:\Qt\Qt5.4.0\5.4' > ./scripts/custom-windows.bat
