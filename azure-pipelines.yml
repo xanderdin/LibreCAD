@@ -155,12 +155,14 @@ stages:
             boost@1.60 \
             qt5
         brew link qt5 --force
+        echo "BOOST_DIR = /usr/local/opt/boost@1.60/"    >> ./librecad/src/custom.pro
+        echo "BOOST_LIBDIR = /usr/local/opt/boost@1.60/" >> ./librecad/src/custom.pro
       displayName: 'Install dependencies'
 
     - bash: |
         set -e
-        export LDFLAGS="-L/usr/local/opt/boost@1.60/lib"
-        export CPPFLAGS="-I/usr/local/opt/boost@1.60/include"
+        #export LDFLAGS="-L/usr/local/opt/boost@1.60/lib"
+        #export CPPFLAGS="-I/usr/local/opt/boost@1.60/include"
         echo "QT_CONFIG -= no-pkg-config" >> custom.pro
         #qmake librecad.pro -r -spec macx-g++ CONFIG+=debug_and_release
         qmake librecad.pro -r -spec macx-clang CONFIG+=debug_and_release
