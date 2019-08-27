@@ -82,20 +82,24 @@ stages:
 
     - script: |
         C:
-        wget -O boost_1_60_0.7z 'https://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.7z/download'
-        7z x boost_1_60_0.7z
-        dir
         pip install aqtinstall
         mkdir Qt
         python -m aqt install -O c:\Qt 5.11.3 windows desktop win32_mingw53
+        mkdir boost
+        cd boost
+        wget -O boost_1_60_0.7z 'https://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.7z/download'
+        7z x boost_1_60_0.7z
+        dir
       displayName: 'Install dependencies'
 
     - bash: |
         echo 'set Qt_DIR=C:\Qt\Qt5.11.3\5.11.3' > ./scripts/custom-windows.bat
         echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS' >> ./scripts/custom-windows.bat
         echo 'set MINGW_VER=mingw53_32' >> ./scripts/custom-windows.bat
-        echo "BOOST_DIR = \"$BOOST_ROOT\"" >> ./librecad/src/custom.pro
-        echo "BOOST_LIBDIR = \"$BOOST_ROOT\"" >> ./librecad/src/custom.pro
+        #echo "BOOST_DIR = \"$(echo \"$BOOST_ROOT\" | sed 's|\|/|g')\"/" >> ./librecad/src/custom.pro
+        #echo "BOOST_LIBDIR = \"$(echo \"$BOOST_ROOT\" | sed 's|\|/|g')\"/" >> ./librecad/src/custom.pro
+        echo 'BOOST_DIR = C:/boost/boost_1_60_0/' >> ./librecad/src/custom.pro
+        echo 'BOOST_LIBDIR = C:/boost/boost_1_60_0/' >> ./librecad/src/custom.pro
         cat ./librecad/src/custom.pro
       displayName: 'Prebuild'
 
