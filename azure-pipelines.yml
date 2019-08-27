@@ -39,7 +39,7 @@ stages:
 
   - job: LinuxBuild
     displayName: 'Linux build'
-    #condition: False  # disable this job for now
+    condition: False  # disable this job for now
 
     pool:
       vmImage: 'ubuntu-16.04'
@@ -83,7 +83,7 @@ stages:
 
   - job: WindowsBuild
     displayName: 'Windows build'
-    #condition: False  # disable this job for now
+    condition: False  # disable this job for now
 
     pool:
       vmImage: 'windows-2019'
@@ -143,7 +143,7 @@ stages:
 
   - job: MacOSBuild
     displayName: 'MacOS build'
-    condition: False  # disable this job for now
+    #condition: False  # disable this job for now
 
     pool:
       vmImage: 'macos-10.14'
@@ -152,18 +152,18 @@ stages:
 
     - bash: |
         brew install \
-            boost \
+            boost@1.60 \
             qt5
         brew link qt5 --force
       displayName: 'Install dependencies'
 
     - bash: |
-        #echo "QT_CONFIG -= no-pkg-config" >> custom.pro
+        echo "QT_CONFIG -= no-pkg-config" >> custom.pro
         #qmake librecad.pro -r -spec macx-g++ CONFIG+=debug_and_release
-        #qmake librecad.pro -r -spec macx-clang CONFIG+=debug_and_release
-        #make release -j$(sysctl -n hw.ncpu)
-        ./scripts/build-osx.sh
-        #ls -lahR LibreCAD*
+        qmake librecad.pro -r -spec macx-clang CONFIG+=debug_and_release
+        make release -j$(sysctl -n hw.ncpu)
+        #./scripts/build-osx.sh
+        ls -lahR LibreCAD*
       displayName: 'Build from source'
 
     - task: CopyFiles@2
