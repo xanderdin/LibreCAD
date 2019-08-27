@@ -113,7 +113,6 @@ stages:
         mkdir /c/Qt /c/boost
 
         pip install aqtinstall
-        python -m aqt install -O c:/Qt 5.13.1 windows desktop win64_mingw73
 
         pushd /c/boost
         curl -L -o ./$BOOST_ZIP "$BOOST_URL"
@@ -123,6 +122,10 @@ stages:
         ls -lah /c/Qt
         ls -lah /c/boost
       displayName: 'Install dependencies'
+
+    - script: |
+        python -m aqt install -O c:\Qt 5.13.1 windows desktop win64_mingw73
+      displayName: 'Install Qt'
 
     - script: |
         cd .\scripts
