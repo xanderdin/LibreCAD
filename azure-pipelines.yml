@@ -84,7 +84,7 @@ stages:
         C:
         pip install aqtinstall
         mkdir Qt
-        python -m aqt install -O c:\Qt 5.9 windows desktop win32_mingw53
+        python -m aqt install -O c:\Qt 5.9.1 windows desktop win32_mingw53
       #python -m aqt install -O c:\Qt 5.4 windows desktop win32_mingw491
       #python -m aqt install -O c:\Qt 5.11.3 windows desktop win32_mingw53
       displayName: 'Install Qt'
@@ -102,7 +102,7 @@ stages:
         #echo 'set Qt_DIR=C:\Qt\Qt5.11.3\5.11.3' > ./scripts/custom-windows.bat
         #echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS' >> ./scripts/custom-windows.bat
         #echo 'set MINGW_VER=mingw53_32' >> ./scripts/custom-windows.bat
-        echo 'set Qt_DIR=C:\Qt\Qt5.9\5.9' > ./scripts/custom-windows.bat
+        echo 'set Qt_DIR=C:\Qt\Qt5.9.1\5.9.1' > ./scripts/custom-windows.bat
         echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS' >> ./scripts/custom-windows.bat
         echo 'set MINGW_VER=mingw53_32' >> ./scripts/custom-windows.bat
         #echo 'set Qt_DIR=C:\Qt\Qt5.4.0\5.4' > ./scripts/custom-windows.bat
