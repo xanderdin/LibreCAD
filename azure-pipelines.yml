@@ -23,6 +23,7 @@ stages:
 
   - job: LinuxBuild
     displayName: 'Linux build'
+    condition: False  # disable this job for now
 
     pool:
       vmImage: 'ubuntu-16.04'
@@ -78,7 +79,7 @@ stages:
         pip install aqtinstall
         cd C:\
         mkdir Qt
-        aqt install -O C:\Qt 5.11.3 windows desktop win64_mingw73
+        python -m aqt install -O C:\Qt 5.11.3 windows desktop win64_mingw73
       displayName: 'Install dependencies'
 
     - bash: |
