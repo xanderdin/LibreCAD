@@ -89,6 +89,8 @@ stages:
       #python -m aqt install -O c:\Qt 5.11.3 windows desktop win32_mingw53
       #displayName: 'Install Qt'
 
+    - checkout: none
+
     - bash: |
         set -e
 
@@ -103,29 +105,25 @@ stages:
         echo "set Qt_DIR=C:\Qt\Qt$QT_VERSION\$QT_VERSION" > ./scripts/custom-windows.bat
         echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS'  >> ./scripts/custom-windows.bat
         echo 'set MINGW_VER=mingw73_64'                  >> ./scripts/custom-windows.bat
+        cat ./scripts/custom-windows.bat
 
         echo "BOOST_DIR = C:$BOOST_DIR/"    >> ./librecad/src/custom.pro
         echo 'BOOST_LIBDIR = C:$BOOST_DIR/' >> ./librecad/src/custom.pro
+        cat ./librecad/src/custom.pro
 
         # I have no idea of how to install NSIS here, so
         echo '' > ./scripts/build-win-setup.bat
 
         mkdir /c/Qt /c/boost
 
-        pip install aqtinstall
+        #pip install aqtinstall
+        #python -m aqt install -O /c/Qt $QT_VERSION windows desktop win64_mingw73
 
         pushd /c/boost
-        curl -L -o ./$BOOST_ZIP "$BOOST_URL"
-        7z x ./$BOOST_ZIP
+        #curl -L -o ./$BOOST_ZIP "$BOOST_URL"
+        #7z x ./$BOOST_ZIP
         popd
-
-        ls -lah /c/Qt
-        ls -lah /c/boost
       displayName: 'Install dependencies'
-
-    - script: |
-        python -m aqt install -O c:\Qt 5.13.1 windows desktop win64_mingw73
-      displayName: 'Install Qt'
 
     - script: |
         cd .\scripts
