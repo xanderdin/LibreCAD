@@ -86,10 +86,10 @@ stages:
         mkdir Qt
         python -m aqt install -O c:\Qt 5.11.3 windows desktop win32_mingw53
         mkdir boost
-      #cd boost
-      #wget -O boost_1_60_0.7z 'https://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.7z/download'
-      #7z x boost_1_60_0.7z
-      #dir
+        cd boost
+        curl -L -o boost_1_60_0.7z 'https://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.7z/download'
+        7z x boost_1_60_0.7z
+        dir
       displayName: 'Install dependencies'
 
       #- powershell: wget 'https://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.7z/download' -OutFile boost_1_60_0.7z
@@ -102,17 +102,16 @@ stages:
       #  destinationFolder: 'C:\boost'
       #  cleanDestinationFolder: false
 
-    - bash: |
-        wget -O boost_1_60_0.7z 'https://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.7z/download'
-        curl
-        ls -l /c/
-      displayName: 'Get Boost'
+      #- bash: |
+      #  curl
+      #  ls -l /c/
+      #displayName: 'Get Boost'
 
-    - task: ExtractFiles@1
-      inputs:
-        archiveFilePatterns: 'boost_1_60_0.7z'
-        destinationFolder: 'C:\boost'
-        #cleanDestinationFolder: false
+      #- task: ExtractFiles@1
+      #inputs:
+      #  archiveFilePatterns: 'boost_1_60_0.7z'
+      #  destinationFolder: 'C:\boost'
+      #  #cleanDestinationFolder: false
 
 
     - script: 'dir C:\boost'
