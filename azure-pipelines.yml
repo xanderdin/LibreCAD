@@ -70,8 +70,8 @@ stages:
     #condition: False  # disable this job for now
 
     pool:
-      #vmImage: 'vs2017-win2016'
-      vmImage: 'windows-2019'
+      vmImage: 'vs2017-win2016'
+      #vmImage: 'windows-2019'
 
     steps:
 
