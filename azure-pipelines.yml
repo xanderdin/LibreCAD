@@ -80,56 +80,59 @@ stages:
     #    versionSpec: '3.5.4'
     #    architecture: 'x86'
 
-    - script: |
-        C:
-        pip install aqtinstall
-        mkdir Qt
-        python -m aqt install -O c:\Qt 5.13.1 windows desktop win64_mingw73
+        #- script: |
+        # C:
+        #pip install aqtinstall
+        #mkdir Qt
+        #python -m aqt install -O c:\Qt 5.13.1 windows desktop win64_mingw73
       #python -m aqt install -O c:\Qt 5.4 windows desktop win32_mingw491
       #python -m aqt install -O c:\Qt 5.11.3 windows desktop win32_mingw53
-      displayName: 'Install Qt'
+      #displayName: 'Install Qt'
 
     - bash: |
-        mkdir /c/boost
-        cd /c/boost
-        curl -L -o boost_1_60_0.7z 'https://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.7z/download'
-        7z x ./boost_1_60_0.7z
-        ls -lah
-      displayName: 'Install Boost'
+        set -e
 
-    - bash: |
-        ls -lahR /c/Qt
-        #echo 'set Qt_DIR=C:\Qt\Qt5.11.3\5.11.3' > ./scripts/custom-windows.bat
-        #echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS' >> ./scripts/custom-windows.bat
-        #echo 'set MINGW_VER=mingw53_32' >> ./scripts/custom-windows.bat
-        echo 'set Qt_DIR=C:\Qt\Qt5.13.1\5.13.1' > ./scripts/custom-windows.bat
-        echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS' >> ./scripts/custom-windows.bat
-        echo 'set MINGW_VER=mingw73_64' >> ./scripts/custom-windows.bat
-        #echo 'set Qt_DIR=C:\Qt\Qt5.4.0\5.4' > ./scripts/custom-windows.bat
-        #echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS' >> ./scripts/custom-windows.bat
-        #echo 'set MINGW_VER=mingw491_32' >> ./scripts/custom-windows.bat
-        #echo "BOOST_DIR = $(echo \"$BOOST_ROOT/\" | sed 's|\\|/|g')" >> ./librecad/src/custom.pro
-        #echo "BOOST_LIBDIR = $(echo \"$BOOST_ROOT/\" | sed 's|\\|/|g')" >> ./librecad/src/custom.pro
-        echo 'BOOST_DIR = C:/boost/boost_1_60_0/' >> ./librecad/src/custom.pro
-        echo 'BOOST_LIBDIR = C:/boost/boost_1_60_0/' >> ./librecad/src/custom.pro
-        # Have no idea of how to install NSIS, so
+        QT_VERSION="5.13.1"
+
+        BOOST_VERSION="1.60.0"
+        BOOST_ZIP="boost_$(echo $BOOST_VERSION | sed 's|\.|_|g').7z"
+        BOOST_DIR="/boost/boost_$(echo $BOOST_VERSION | sed 's|\.|_|g')"
+        BOOST_URL="https://sourceforge.net/projects/boost/files/boost"
+        BOOST_URL="$BOOST_URL/$BOOST_VERSION/$BOOST_ZIP/download"
+
+        echo "set Qt_DIR=C:\Qt\Qt$QT_VERSION\$QT_VERSION" > ./scripts/custom-windows.bat
+        echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS'  >> ./scripts/custom-windows.bat
+        echo 'set MINGW_VER=mingw73_64'                  >> ./scripts/custom-windows.bat
+
+        echo "BOOST_DIR = C:$BOOST_DIR/"    >> ./librecad/src/custom.pro
+        echo 'BOOST_LIBDIR = C:$BOOST_DIR/' >> ./librecad/src/custom.pro
+
+        # I have no idea of how to install NSIS here, so
         echo '' > ./scripts/build-win-setup.bat
-      displayName: 'Prebuild'
+
+        mkdir /c/Qt /c/boost
+
+        pip install aqtinstall
+        python -m aqt install -O /c/Qt 5.13.1 windows desktop win64_mingw73
+
+        pushd /c/boost
+        curl -L -o ./$BOOST_ZIP "$BOOST_URL"
+        7z x ./$BOOST_ZIP
+        popd
+      displayName: 'Install dependencies'
 
     - script: |
         cd .\scripts
         build-windows.bat
-        cd ..
-        dir windows
       displayName: 'Build from source'
 
     - bash: |
-        zip -r LibreCAD_$(git describe --tags).zip ./windows
-      displayName: 'Zip built files'
+        7z a -r LibreCAD_$(git describe --tags).7z ./windows
+      displayName: 'Package built files'
 
     - task: CopyFiles@2
       inputs:
-        contents: '*.zip'
+        contents: '*.7z'
         targetFolder: $(Build.ArtifactStagingDirectory)
 
     - task: PublishBuildArtifacts@1
