@@ -174,7 +174,8 @@ stages:
         #export LDFLAGS="-L/usr/local/opt/boost@1.60/lib"
         #export CPPFLAGS="-I/usr/local/opt/boost@1.60/include"
         #qmake librecad.pro -r -spec macx-g++ CONFIG+=debug_and_release
-        qmake librecad.pro -r -spec macx-g++
+        #qmake librecad.pro -r -spec macx-g++
+        qmake librecad.pro -r -spec macx-gcc
         #qmake librecad.pro -r -spec macx-clang CONFIG+=debug_and_release
         #qmake librecad.pro -r -spec macx-clang
         #make release -j$(sysctl -n hw.ncpu)
