@@ -70,15 +70,23 @@ stages:
     #condition: False  # disable this job for now
 
     pool:
-      vmImage: 'vs2017-win2016'
-      #vmImage: 'windows-2019'
+      #vmImage: 'vs2017-win2016'
+      vmImage: 'windows-2019'
 
     steps:
 
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.5.4'
+        architecture: 'x86'
+
     - script: |
         pip install aqtinstall
+        echo 'mkdir in C:\'
         cd C:\
         mkdir Qt
+        dir C:\
+        echo 'aqt run'
         python -m aqt install -O C:\Qt 5.11.3 windows desktop win64_mingw73
       displayName: 'Install dependencies'
 
