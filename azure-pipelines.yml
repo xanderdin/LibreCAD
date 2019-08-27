@@ -96,8 +96,8 @@ stages:
         echo 'set Qt_DIR=C:\Qt\Qt5.11.3\5.11.3' > ./scripts/custom-windows.bat
         echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS' >> ./scripts/custom-windows.bat
         echo 'set MINGW_VER=mingw53_32' >> ./scripts/custom-windows.bat
-        echo "BOOST_DIR = $(echo \"$BOOST_ROOT\" | sed 's|\\|/|g')/" >> ./librecad/src/custom.pro
-        echo "BOOST_LIBDIR = $(echo \"$BOOST_ROOT\" | sed 's|\\|/|g')/" >> ./librecad/src/custom.pro
+        echo "BOOST_DIR = $(echo \"$BOOST_ROOT/\" | sed 's|\\|/|g')" >> ./librecad/src/custom.pro
+        echo "BOOST_LIBDIR = $(echo \"$BOOST_ROOT/\" | sed 's|\\|/|g')" >> ./librecad/src/custom.pro
         #echo 'BOOST_DIR = C:/boost/boost_1_60_0/' >> ./librecad/src/custom.pro
         #echo 'BOOST_LIBDIR = C:/boost/boost_1_60_0/' >> ./librecad/src/custom.pro
         cat ./librecad/src/custom.pro
