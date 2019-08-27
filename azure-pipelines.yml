@@ -82,25 +82,22 @@ stages:
 
     - script: |
         pip install aqtinstall
-        echo 'mkdir in C:\'
         C:
         mkdir Qt
-        dir C:\
-        dir C:\Qt
-        echo 'aqt run'
         python -m aqt install -O c:\Qt 5.11.3 windows desktop win32_mingw53
       displayName: 'Install dependencies'
 
     - bash: |
-        ls -lah /c/
-        ls -lahR /c/Qt
-        echo 'set Qt_DIR=C:\Qt\Qt5.11.3\5.11' > ./scripts/custom-windows.bat
+        echo 'set Qt_DIR=C:\Qt\Qt5.11.3\5.11.3' > ./scripts/custom-windows.bat
         echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS' >> ./scripts/custom-windows.bat
         echo 'set MINGW_VER=mingw53_32' >> ./scripts/custom-windows.bat
+        ls -lah ./scripts/*
+        cat ./scripts/custom-windows.bat
       displayName: 'Prebuild'
 
     - script: |
-        .\scripts\build-windows.bat
+        cd .\scripts
+        build-windows.bat
       displayName: 'Build from source'
 
     - task: CopyFiles@2
