@@ -85,12 +85,20 @@ stages:
         pip install aqtinstall
         mkdir Qt
         python -m aqt install -O c:\Qt 5.11.3 windows desktop win32_mingw53
-        mkdir boost
-        cd boost
+      #mkdir boost
+      #cd boost
+      #curl -L -o boost_1_60_0.7z 'https://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.7z/download'
+      #7z x boost_1_60_0.7z
+      #dir
+      displayName: 'Install Qt'
+
+    - bash: |
+        mkdir /c/boost
+        cd /c/boost
         curl -L -o boost_1_60_0.7z 'https://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.7z/download'
         7z x boost_1_60_0.7z
-        dir
-      displayName: 'Install dependencies'
+        ls -lah
+      displayName: 'Install Boost'
 
       #- powershell: wget 'https://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.7z/download' -OutFile boost_1_60_0.7z
       #workingDirectory: 'C:\boost'
