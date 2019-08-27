@@ -92,15 +92,28 @@ stages:
       #dir
       displayName: 'Install dependencies'
 
-    - powershell: wget 'https://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.7z/download' -OutFile boost_1_60_0.7z
-      workingDirectory: 'C:\boost'
-      displayName: 'Install dependencies 2'
+      #- powershell: wget 'https://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.7z/download' -OutFile boost_1_60_0.7z
+      #workingDirectory: 'C:\boost'
+      #displayName: 'Install dependencies 2'
+
+      #- task: ExtractFiles@1
+      #inputs:
+      #  archiveFilePatterns: 'C:\boost\*.7z'
+      #  destinationFolder: 'C:\boost'
+      #  cleanDestinationFolder: false
+
+    - bash: |
+        wget -O boost_1_60_0.7z 'https://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.7z/download'
+        curl
+        ls -l /c/
+      displayName: 'Get Boost'
 
     - task: ExtractFiles@1
       inputs:
-        archiveFilePatterns: 'C:\boost\*.7z'
+        archiveFilePatterns: 'boost_1_60_0.7z'
         destinationFolder: 'C:\boost'
-        cleanDestinationFolder: false
+        #cleanDestinationFolder: false
+
 
     - script: 'dir C:\boost'
       displayName: 'Boost files'
