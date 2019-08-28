@@ -161,17 +161,17 @@ stages:
         echo "BOOST_LIBDIR = /usr/local/opt/boost@1.60/" >> ./librecad/src/custom.pro
         echo "QT_CONFIG -= no-pkg-config"                >> ./librecad/src/custom.pro
         mkdir ~/bin
-        ln -s /usr/local/bin/gcc-6.5 ~/bin/gcc
-        ln -s /usr/local/bin/gcc-6.5 ~/bin/cc
-        ln -s /usr/local/bin/g++-6.5 ~/bin/g++
-        ln -s /usr/local/bin/g++-6.5 ~/bin/c++
-        ln -s /usr/local/bin/gcc-ar-6.5 ~/bin/gcc-ar
-        ln -s /usr/local/bin/gcc-ar-6.5 ~/bin/ar
-        ln -s /usr/local/bin/gcc-nm-6.5 ~/bin/gcc-nm
-        ln -s /usr/local/bin/gcc-nm-6.5 ~/bin/nm
-        ln -s /usr/local/bin/gcc-ranlib-6.5 ~/bin/gcc-ranlib
-        ln -s /usr/local/bin/gcc-ranlib-6.5 ~/bin/ranlib
-        ls -lah /usr/local/bin/
+        ln -s /usr/local/bin/gcc-6 ~/bin/gcc
+        ln -s /usr/local/bin/gcc-6 ~/bin/cc
+        ln -s /usr/local/bin/g++-6 ~/bin/g++
+        ln -s /usr/local/bin/g++-6 ~/bin/c++
+        ln -s /usr/local/bin/gcc-ar-6 ~/bin/gcc-ar
+        ln -s /usr/local/bin/gcc-ar-6 ~/bin/ar
+        ln -s /usr/local/bin/gcc-nm-6 ~/bin/gcc-nm
+        ln -s /usr/local/bin/gcc-nm-6 ~/bin/nm
+        ln -s /usr/local/bin/gcc-ranlib-6 ~/bin/gcc-ranlib
+        ln -s /usr/local/bin/gcc-ranlib-6 ~/bin/ranlib
+        ls -lah /usr/local/bin/ | grep gcc
       displayName: 'Install dependencies'
 
     - bash: |
