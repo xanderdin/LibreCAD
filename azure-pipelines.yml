@@ -162,15 +162,23 @@ stages:
         echo "QT_CONFIG -= no-pkg-config"                >> ./librecad/src/custom.pro
         mkdir ~/bin
         ln -s /usr/local/bin/gcc-6.5 ~/bin/gcc
+        ln -s /usr/local/bin/gcc-6.5 ~/bin/cc
         ln -s /usr/local/bin/g++-6.5 ~/bin/g++
+        ln -s /usr/local/bin/g++-6.5 ~/bin/c++
         ln -s /usr/local/bin/gcc-ar-6.5 ~/bin/gcc-ar
+        ln -s /usr/local/bin/gcc-ar-6.5 ~/bin/ar
         ln -s /usr/local/bin/gcc-nm-6.5 ~/bin/gcc-nm
+        ln -s /usr/local/bin/gcc-nm-6.5 ~/bin/nm
         ln -s /usr/local/bin/gcc-ranlib-6.5 ~/bin/gcc-ranlib
+        ln -s /usr/local/bin/gcc-ranlib-6.5 ~/bin/ranlib
+        ls -lah /usr/local/bin/
       displayName: 'Install dependencies'
 
     - bash: |
         #set -e
+        echo 'Path: ' $PATH
         export PATH="~/bin:$PATH"
+        echo 'Path: ' $PATH
         #export LDFLAGS="-L/usr/local/opt/boost@1.60/lib"
         #export CPPFLAGS="-I/usr/local/opt/boost@1.60/include"
         #qmake librecad.pro -r -spec macx-g++ CONFIG+=debug_and_release
