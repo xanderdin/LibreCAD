@@ -183,9 +183,13 @@ stages:
         ls -lah ~/bin
         gcc --version
         $HOME/bin/gcc --version
-        source ~/.bashrc
-        echo 'Path: ' $PATH
-        cat ~/.bashrc
+        /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc --version
+        sudo ln -f -s /usr/local/bin/gcc-6 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc
+        sudo ln -f -s /usr/local/bin/g++-6 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/g++
+        sudo ln -f -s /usr/local/bin/gcc-ar-6 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ar
+        sudo ln -f -s /usr/local/bin/gcc-nm-6 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/nm
+        sudo ln -f -s /usr/local/bin/gcc-ranlib-6 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ranlib
+        /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc --version
         #export LDFLAGS="-L/usr/local/opt/boost@1.60/lib"
         #export CPPFLAGS="-I/usr/local/opt/boost@1.60/include"
         #qmake librecad.pro -r -spec macx-g++ CONFIG+=debug_and_release
