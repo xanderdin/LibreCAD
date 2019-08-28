@@ -154,23 +154,23 @@ stages:
         set -e
         brew install \
             boost@1.60 \
-            gcc@6 \
+            gcc@9 \
             qt5
         brew link qt5 --force
         echo "BOOST_DIR = /usr/local/opt/boost@1.60/"    >> ./librecad/src/custom.pro
         echo "BOOST_LIBDIR = /usr/local/opt/boost@1.60/" >> ./librecad/src/custom.pro
         echo "QT_CONFIG -= no-pkg-config"                >> ./librecad/src/custom.pro
         mkdir ~/bin
-        ln -s /usr/local/bin/gcc-6 ~/bin/gcc
-        ln -s /usr/local/bin/gcc-6 ~/bin/cc
-        ln -s /usr/local/bin/g++-6 ~/bin/g++
-        ln -s /usr/local/bin/g++-6 ~/bin/c++
-        ln -s /usr/local/bin/gcc-ar-6 ~/bin/gcc-ar
-        ln -s /usr/local/bin/gcc-ar-6 ~/bin/ar
-        ln -s /usr/local/bin/gcc-nm-6 ~/bin/gcc-nm
-        ln -s /usr/local/bin/gcc-nm-6 ~/bin/nm
-        ln -s /usr/local/bin/gcc-ranlib-6 ~/bin/gcc-ranlib
-        ln -s /usr/local/bin/gcc-ranlib-6 ~/bin/ranlib
+        ln -s /usr/local/bin/gcc-9 ~/bin/gcc
+        ln -s /usr/local/bin/gcc-9 ~/bin/cc
+        ln -s /usr/local/bin/g++-9 ~/bin/g++
+        ln -s /usr/local/bin/g++-9 ~/bin/c++
+        ln -s /usr/local/bin/gcc-ar-9 ~/bin/gcc-ar
+        ln -s /usr/local/bin/gcc-ar-9 ~/bin/ar
+        ln -s /usr/local/bin/gcc-nm-9 ~/bin/gcc-nm
+        ln -s /usr/local/bin/gcc-nm-9 ~/bin/nm
+        ln -s /usr/local/bin/gcc-ranlib-9 ~/bin/gcc-ranlib
+        ln -s /usr/local/bin/gcc-ranlib-9 ~/bin/ranlib
         ls -lah ~/bin
         ls -lah /usr/local/bin/ | grep gcc
       displayName: 'Install dependencies'
@@ -184,12 +184,15 @@ stages:
         gcc --version
         $HOME/bin/gcc --version
         /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc --version
-        sudo ln -f -s /usr/local/bin/gcc-6 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc
-        sudo ln -f -s /usr/local/bin/g++-6 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/g++
-        sudo ln -f -s /usr/local/bin/gcc-ar-6 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ar
-        sudo ln -f -s /usr/local/bin/gcc-nm-6 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/nm
-        sudo ln -f -s /usr/local/bin/gcc-ranlib-6 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ranlib
+        sudo ln -f -s /usr/local/bin/gcc-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc
+        sudo ln -f -s /usr/local/bin/gcc-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/cc
+        sudo ln -f -s /usr/local/bin/g++-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/g++
+        sudo ln -f -s /usr/local/bin/g++-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/c++
+        sudo ln -f -s /usr/local/bin/gcc-ar-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ar
+        sudo ln -f -s /usr/local/bin/gcc-nm-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/nm
+        sudo ln -f -s /usr/local/bin/gcc-ranlib-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ranlib
         /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc --version
+        ls -lah /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/
         #export LDFLAGS="-L/usr/local/opt/boost@1.60/lib"
         #export CPPFLAGS="-I/usr/local/opt/boost@1.60/include"
         #qmake librecad.pro -r -spec macx-g++ CONFIG+=debug_and_release
