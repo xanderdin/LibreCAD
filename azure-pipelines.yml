@@ -183,8 +183,9 @@ stages:
         ls -lah ~/bin
         gcc --version
         $HOME/bin/gcc --version
-        export QMAKE_CC=$HOME/bin/gcc
-        export QMAKE_CXX=$HOME/bin/g++
+        source ~/.bashrc
+        echo 'Path: ' $PATH
+        cat ~/.bashrc
         #export LDFLAGS="-L/usr/local/opt/boost@1.60/lib"
         #export CPPFLAGS="-I/usr/local/opt/boost@1.60/include"
         #qmake librecad.pro -r -spec macx-g++ CONFIG+=debug_and_release
