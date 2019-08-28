@@ -1,7 +1,7 @@
 #
 # Azure Pipelines for LibreCAD.
 #
-# Build a fresh Linux, Windows and MacOS version of LibreCAD continuously on
+# Build a fresh Linux, Windows and MacOS versions of LibreCAD continuously on
 # every change to master branch. Built packages will be available for download.
 
 
@@ -39,7 +39,7 @@ stages:
 
   - job: LinuxBuild
     displayName: 'Linux build'
-    condition: False  # disable this job for now
+    #condition: False  # disable this job for now
 
     pool:
       vmImage: 'ubuntu-16.04'
@@ -83,7 +83,7 @@ stages:
 
   - job: WindowsBuild
     displayName: 'Windows build'
-    condition: False  # disable this job for now
+    #condition: False  # disable this job for now
 
     pool:
       vmImage: 'windows-2019'
@@ -108,7 +108,10 @@ stages:
         echo "BOOST_DIR = C:$BOOST_DIR/"    >> ./librecad/src/custom.pro
         echo "BOOST_LIBDIR = C:$BOOST_DIR/" >> ./librecad/src/custom.pro
 
-        # I have no idea of how to install NSIS here, so
+        # @xanderdin:
+        # I have no idea of how to install NSIS from this script,
+        # so erasing everything from build-win-setup.bat to prevent
+        # any attempts of building Windows Installer for now.
         echo '' > ./scripts/build-win-setup.bat
 
         mkdir /c/Qt /c/boost
@@ -157,7 +160,9 @@ stages:
             boost@1.60 \
             gcc@9 \
             qt5
+
         brew link qt5 --force
+
         echo "BOOST_DIR = /usr/local/opt/boost@1.60/"    >> ./librecad/src/custom.pro
         echo "BOOST_LIBDIR = /usr/local/opt/boost@1.60/" >> ./librecad/src/custom.pro
         echo "QT_CONFIG -= no-pkg-config"                >> ./librecad/src/custom.pro
@@ -173,15 +178,16 @@ stages:
         #sudo ln -s /usr/local/bin/gcc-ranlib-9 /usr/local/bin/gcc-ranlib
         #sudo ln -s /usr/local/bin/gcc-ranlib-9 /usr/local/bin/ranlib
 
+        # @xanderdin:
         # Dirty hack, but this is the only way I found it to work.
         # Default clang always fails during compilation process.
         # When trying to use gcc, qmake always ignores its locations.
         # By looking into .qmake.stash I discovered that qmake always
-        # forces to use gcc from
+        # forces using gcc from
         #
         # /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/
         #
-        # So, linking gcc to that location.
+        # So, forcing gcc to be at that location.
         sudo ln -f -s /usr/local/bin/gcc-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc
         sudo ln -f -s /usr/local/bin/gcc-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/cc
         sudo ln -f -s /usr/local/bin/g++-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/g++
@@ -189,29 +195,10 @@ stages:
         sudo ln -f -s /usr/local/bin/gcc-ar-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ar
         sudo ln -f -s /usr/local/bin/gcc-nm-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/nm
         sudo ln -f -s /usr/local/bin/gcc-ranlib-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ranlib
-
       displayName: 'Install dependencies'
 
     - bash: |
-        #set -e
-        #echo 'Path: ' $PATH
-        #export PATH="~/bin:$PATH"
-        #echo 'Path: ' $PATH
-        #ls -lah ~/bin
-        gcc --version
-        #$HOME/bin/gcc --version
-        /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc --version
-        #sudo ln -f -s /usr/local/bin/gcc-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc
-        #sudo ln -f -s /usr/local/bin/gcc-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/cc
-        #sudo ln -f -s /usr/local/bin/g++-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/g++
-        #sudo ln -f -s /usr/local/bin/g++-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/c++
-        #sudo ln -f -s /usr/local/bin/gcc-ar-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ar
-        #sudo ln -f -s /usr/local/bin/gcc-nm-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/nm
-        #sudo ln -f -s /usr/local/bin/gcc-ranlib-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ranlib
-        #/Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc --version
-        #ls -lah /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/
-        #export LDFLAGS="-L/usr/local/opt/boost@1.60/lib"
-        #export CPPFLAGS="-I/usr/local/opt/boost@1.60/include"
+        set -e
         #qmake librecad.pro -r -spec macx-g++ CONFIG+=debug_and_release
         #qmake librecad.pro -r -spec macx-g++
         #qmake librecad.pro -r -spec macx-clang CONFIG+=debug_and_release
@@ -219,7 +206,7 @@ stages:
         #make release -j$(sysctl -n hw.ncpu)
         #make -j$(sysctl -n hw.ncpu)
         ./scripts/build-osx.sh -q="-spec macx-g++"
-        cat ./.qmake.stash
+        #cat ./.qmake.stash
       displayName: 'Build from source'
 
     - task: CopyFiles@2
