@@ -152,6 +152,7 @@ stages:
 
     - bash: |
         set -e
+
         brew install \
             boost@1.60 \
             gcc@9 \
@@ -160,17 +161,35 @@ stages:
         echo "BOOST_DIR = /usr/local/opt/boost@1.60/"    >> ./librecad/src/custom.pro
         echo "BOOST_LIBDIR = /usr/local/opt/boost@1.60/" >> ./librecad/src/custom.pro
         echo "QT_CONFIG -= no-pkg-config"                >> ./librecad/src/custom.pro
-        sudo ln -s /usr/local/bin/gcc-9 /usr/local/bin/gcc
-        sudo ln -s /usr/local/bin/gcc-9 /usr/local/bin/cc
-        sudo ln -s /usr/local/bin/g++-9 /usr/local/bin/g++
-        sudo ln -s /usr/local/bin/g++-9 /usr/local/bin/c++
-        sudo ln -s /usr/local/bin/gcc-ar-9 /usr/local/bin/gcc-ar
-        sudo ln -s /usr/local/bin/gcc-ar-9 /usr/local/bin/ar
-        sudo ln -s /usr/local/bin/gcc-nm-9 /usr/local/bin/gcc-nm
-        sudo ln -s /usr/local/bin/gcc-nm-9 /usr/local/bin/nm
-        sudo ln -s /usr/local/bin/gcc-ranlib-9 /usr/local/bin/gcc-ranlib
-        sudo ln -s /usr/local/bin/gcc-ranlib-9 /usr/local/bin/ranlib
-        ls -lah /usr/local/bin/ | grep gcc
+
+        #sudo ln -s /usr/local/bin/gcc-9 /usr/local/bin/gcc
+        #sudo ln -s /usr/local/bin/gcc-9 /usr/local/bin/cc
+        #sudo ln -s /usr/local/bin/g++-9 /usr/local/bin/g++
+        #sudo ln -s /usr/local/bin/g++-9 /usr/local/bin/c++
+        #sudo ln -s /usr/local/bin/gcc-ar-9 /usr/local/bin/gcc-ar
+        #sudo ln -s /usr/local/bin/gcc-ar-9 /usr/local/bin/ar
+        #sudo ln -s /usr/local/bin/gcc-nm-9 /usr/local/bin/gcc-nm
+        #sudo ln -s /usr/local/bin/gcc-nm-9 /usr/local/bin/nm
+        #sudo ln -s /usr/local/bin/gcc-ranlib-9 /usr/local/bin/gcc-ranlib
+        #sudo ln -s /usr/local/bin/gcc-ranlib-9 /usr/local/bin/ranlib
+
+        # Dirty hack, but this is the only way I found it to work.
+        # Default clang always fails during compilation process.
+        # When trying to use gcc, qmake always ignores its locations.
+        # By looking into .qmake.stash I discovered that qmake always
+        # forces to use gcc from
+        #
+        # /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/
+        #
+        # So, linking gcc to that location.
+        sudo ln -f -s /usr/local/bin/gcc-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc
+        sudo ln -f -s /usr/local/bin/gcc-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/cc
+        sudo ln -f -s /usr/local/bin/g++-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/g++
+        sudo ln -f -s /usr/local/bin/g++-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/c++
+        sudo ln -f -s /usr/local/bin/gcc-ar-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ar
+        sudo ln -f -s /usr/local/bin/gcc-nm-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/nm
+        sudo ln -f -s /usr/local/bin/gcc-ranlib-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ranlib
+
       displayName: 'Install dependencies'
 
     - bash: |
@@ -200,9 +219,6 @@ stages:
         #make release -j$(sysctl -n hw.ncpu)
         #make -j$(sysctl -n hw.ncpu)
         ./scripts/build-osx.sh -q="-spec macx-g++"
-        ls -lah ./
-        cat ./Makefile
-        echo '======='
         cat ./.qmake.stash
       displayName: 'Build from source'
 
