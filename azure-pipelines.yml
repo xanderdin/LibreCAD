@@ -160,49 +160,46 @@ stages:
         echo "BOOST_DIR = /usr/local/opt/boost@1.60/"    >> ./librecad/src/custom.pro
         echo "BOOST_LIBDIR = /usr/local/opt/boost@1.60/" >> ./librecad/src/custom.pro
         echo "QT_CONFIG -= no-pkg-config"                >> ./librecad/src/custom.pro
-        mkdir ~/bin
-        ln -s /usr/local/bin/gcc-9 ~/bin/gcc
-        ln -s /usr/local/bin/gcc-9 ~/bin/cc
-        ln -s /usr/local/bin/g++-9 ~/bin/g++
-        ln -s /usr/local/bin/g++-9 ~/bin/c++
-        ln -s /usr/local/bin/gcc-ar-9 ~/bin/gcc-ar
-        ln -s /usr/local/bin/gcc-ar-9 ~/bin/ar
-        ln -s /usr/local/bin/gcc-nm-9 ~/bin/gcc-nm
-        ln -s /usr/local/bin/gcc-nm-9 ~/bin/nm
-        ln -s /usr/local/bin/gcc-ranlib-9 ~/bin/gcc-ranlib
-        ln -s /usr/local/bin/gcc-ranlib-9 ~/bin/ranlib
-        ls -lah ~/bin
+        sudo ln -s /usr/local/bin/gcc-9 /usr/local/bin/gcc
+        sudo ln -s /usr/local/bin/gcc-9 /usr/local/bin/cc
+        sudo ln -s /usr/local/bin/g++-9 /usr/local/bin/g++
+        sudo ln -s /usr/local/bin/g++-9 /usr/local/bin/c++
+        sudo ln -s /usr/local/bin/gcc-ar-9 /usr/local/bin/gcc-ar
+        sudo ln -s /usr/local/bin/gcc-ar-9 /usr/local/bin/ar
+        sudo ln -s /usr/local/bin/gcc-nm-9 /usr/local/bin/gcc-nm
+        sudo ln -s /usr/local/bin/gcc-nm-9 /usr/local/bin/nm
+        sudo ln -s /usr/local/bin/gcc-ranlib-9 /usr/local/bin/gcc-ranlib
+        sudo ln -s /usr/local/bin/gcc-ranlib-9 /usr/local/bin/ranlib
         ls -lah /usr/local/bin/ | grep gcc
       displayName: 'Install dependencies'
 
     - bash: |
         #set -e
-        echo 'Path: ' $PATH
-        export PATH="~/bin:$PATH"
-        echo 'Path: ' $PATH
-        ls -lah ~/bin
+        #echo 'Path: ' $PATH
+        #export PATH="~/bin:$PATH"
+        #echo 'Path: ' $PATH
+        #ls -lah ~/bin
         gcc --version
-        $HOME/bin/gcc --version
+        #$HOME/bin/gcc --version
         /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc --version
-        sudo ln -f -s /usr/local/bin/gcc-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc
-        sudo ln -f -s /usr/local/bin/gcc-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/cc
-        sudo ln -f -s /usr/local/bin/g++-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/g++
-        sudo ln -f -s /usr/local/bin/g++-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/c++
-        sudo ln -f -s /usr/local/bin/gcc-ar-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ar
-        sudo ln -f -s /usr/local/bin/gcc-nm-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/nm
-        sudo ln -f -s /usr/local/bin/gcc-ranlib-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ranlib
-        /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc --version
-        ls -lah /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/
+        #sudo ln -f -s /usr/local/bin/gcc-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc
+        #sudo ln -f -s /usr/local/bin/gcc-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/cc
+        #sudo ln -f -s /usr/local/bin/g++-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/g++
+        #sudo ln -f -s /usr/local/bin/g++-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/c++
+        #sudo ln -f -s /usr/local/bin/gcc-ar-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ar
+        #sudo ln -f -s /usr/local/bin/gcc-nm-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/nm
+        #sudo ln -f -s /usr/local/bin/gcc-ranlib-9 /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/ranlib
+        #/Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/gcc --version
+        #ls -lah /Applications/Xcode_10.2.1.app/Contents/Developer/usr/bin/
         #export LDFLAGS="-L/usr/local/opt/boost@1.60/lib"
         #export CPPFLAGS="-I/usr/local/opt/boost@1.60/include"
         #qmake librecad.pro -r -spec macx-g++ CONFIG+=debug_and_release
-        qmake librecad.pro -r -spec macx-g++
+        #qmake librecad.pro -r -spec macx-g++
         #qmake librecad.pro -r -spec macx-clang CONFIG+=debug_and_release
         #qmake librecad.pro -r -spec macx-clang
         #make release -j$(sysctl -n hw.ncpu)
-        make -j$(sysctl -n hw.ncpu)
-        #./scripts/build-osx.sh
-        ls -lahR LibreCAD*
+        #make -j$(sysctl -n hw.ncpu)
+        ./scripts/build-osx.sh -q="-spec macx-g++"
         ls -lah ./
         cat ./Makefile
         echo '======='
