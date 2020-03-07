@@ -79,7 +79,7 @@ stages:
     - task: PublishBuildArtifacts@1
       inputs:
         pathToPublish: $(Build.ArtifactStagingDirectory)
-        artifactName: LibreCAD_Linux_Build
+        artifactName: LibreCAD_Linux
 
 
   - job: WindowsBuild
@@ -142,7 +142,7 @@ stages:
     - task: PublishBuildArtifacts@1
       inputs:
         pathToPublish: $(Build.ArtifactStagingDirectory)
-        artifactName: LibreCAD_Windows_Build
+        artifactName: LibreCAD_Windows
 
 
   - job: MacOSBuild
@@ -219,7 +219,7 @@ stages:
     - task: PublishBuildArtifacts@1
       inputs:
         pathToPublish: $(Build.ArtifactStagingDirectory)
-        artifactName: LibreCAD_MacOS_Build
+        artifactName: LibreCAD_MacOS
 
 
 #- stage: TestStage
