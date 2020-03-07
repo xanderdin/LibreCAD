@@ -84,7 +84,7 @@ stages:
 
   - job: WindowsBuild
     displayName: 'Windows build'
-    #condition: False  # disable this job for now
+    condition: False  # disable this job for now
 
     pool:
       vmImage: 'windows-2019'
