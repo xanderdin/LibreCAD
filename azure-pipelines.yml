@@ -39,7 +39,7 @@ stages:
 
   - job: LinuxBuild
     displayName: 'Linux build'
-    condition: False  # disable this job for now
+    #condition: False  # disable this job for now
 
     pool:
       vmImage: 'ubuntu-16.04'
@@ -106,7 +106,6 @@ stages:
         BOOST_URL="https://sourceforge.net/projects/boost/files/boost"
         BOOST_URL="$BOOST_URL/$BOOST_VERSION/$BOOST_ZIP/download"
 
-        #echo "set Qt_DIR=C:\Qt\Qt$QT_VERSION\\$QT_VERSION" > ./scripts/custom-windows.bat
         echo "set Qt_DIR=C:\Qt\\$QT_VERSION"               > ./scripts/custom-windows.bat
         echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS'   >> ./scripts/custom-windows.bat
         echo 'set MINGW_VER=mingw73_64'                   >> ./scripts/custom-windows.bat
@@ -152,7 +151,7 @@ stages:
 
   - job: MacOSBuild
     displayName: 'MacOS build'
-    condition: False  # disable this job for now
+    #condition: False  # disable this job for now
 
     pool:
       vmImage: 'macos-10.14'
