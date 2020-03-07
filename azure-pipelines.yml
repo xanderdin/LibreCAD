@@ -79,7 +79,7 @@ stages:
     - task: PublishBuildArtifacts@1
       inputs:
         pathToPublish: $(Build.ArtifactStagingDirectory)
-        artifactName: AppImage
+        artifactName: 'For Linux'
 
 
   - job: WindowsBuild
@@ -142,7 +142,7 @@ stages:
     - task: PublishBuildArtifacts@1
       inputs:
         pathToPublish: $(Build.ArtifactStagingDirectory)
-        artifactName: WindowsPackage
+        artifactName: 'For Windows'
 
 
   - job: MacOSBuild
@@ -219,7 +219,7 @@ stages:
     - task: PublishBuildArtifacts@1
       inputs:
         pathToPublish: $(Build.ArtifactStagingDirectory)
-        artifactName: MacOSPackage
+        artifactName: 'For MacOS'
 
 
 #- stage: TestStage
