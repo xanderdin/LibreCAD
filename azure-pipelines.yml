@@ -39,7 +39,7 @@ stages:
 
   - job: LinuxBuild
     displayName: 'Linux build'
-    #condition: False  # disable this job for now
+    condition: False  # disable this job for now
 
     pool:
       vmImage: 'ubuntu-16.04'
@@ -117,7 +117,7 @@ stages:
 
         mkdir /c/Qt /c/boost
 
-        pip install 'aqtinstall==0.7.1'
+        pip install 'aqtinstall==0.8a4'
         python -m aqt install -O /c/Qt $QT_VERSION windows desktop win64_mingw73
 
         cd /c/boost
@@ -147,7 +147,7 @@ stages:
 
   - job: MacOSBuild
     displayName: 'MacOS build'
-    #condition: False  # disable this job for now
+    condition: False  # disable this job for now
 
     pool:
       vmImage: 'macos-10.14'
