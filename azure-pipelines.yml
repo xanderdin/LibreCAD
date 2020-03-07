@@ -47,6 +47,7 @@ stages:
     steps:
 
     - bash: |
+        sudo apt-get update
         sudo apt-get -qq install \
             qt5-default \
             qtbase5-dev \
