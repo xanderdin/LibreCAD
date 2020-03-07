@@ -117,7 +117,7 @@ stages:
 
         mkdir /c/Qt /c/boost
 
-        pip install 'aqtinstall==0.4.1'
+        pip install 'aqtinstall==0.7.8'
         python -m aqt install -O /c/Qt $QT_VERSION windows desktop win64_mingw73
 
         cd /c/boost
