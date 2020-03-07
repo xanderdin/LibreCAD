@@ -102,7 +102,8 @@ stages:
         BOOST_URL="https://sourceforge.net/projects/boost/files/boost"
         BOOST_URL="$BOOST_URL/$BOOST_VERSION/$BOOST_ZIP/download"
 
-        echo "set Qt_DIR=C:\Qt\Qt$QT_VERSION\\$QT_VERSION" > ./scripts/custom-windows.bat
+        #echo "set Qt_DIR=C:\Qt\Qt$QT_VERSION\\$QT_VERSION" > ./scripts/custom-windows.bat
+        echo "set Qt_DIR=C:\Qt\\$QT_VERSION"               > ./scripts/custom-windows.bat
         echo 'set NSIS_DIR=C:\Program Files (x86)\NSIS'   >> ./scripts/custom-windows.bat
         echo 'set MINGW_VER=mingw73_64'                   >> ./scripts/custom-windows.bat
 
@@ -126,7 +127,6 @@ stages:
       displayName: 'Install dependencies'
 
     - script: |
-        set PATH=%PATH%;C:\Qt\5.13.1\mingw73_64\bin
         cd .\scripts
         build-windows.bat
       displayName: 'Build from source'
